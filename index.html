@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Trustworthiness Fact Label — AI-TFL</title>
+<meta name="description" content="ISO 14021 Type II 자기선언 방식의 AI 신뢰성 사실 라벨 — 카탈로그 대시보드 + 라벨 렌더러">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f2ede0;--paper2:#e9e2d0;--ink:#1b1813;--ink2:#4a443a;--accent:#b23a26;
+ --L1:#7a736a;--L2:#2f5d96;--L3:#2c7a4f;
+ --serif:'Fraunces','Noto Serif KR',serif;--sans:'IBM Plex Sans','IBM Plex Sans KR',sans-serif;--mono:'IBM Plex Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;min-height:100vh;
+ padding:0 20px 80px;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");}
+.wrap{max-width:920px;margin:0 auto}
+header{border-bottom:3px solid var(--ink);padding:54px 0 22px;position:relative}
+header::before{content:"ISO 14021 TYPE II · ISO/IEC TS 5723";position:absolute;top:54px;right:0;
+ font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink2)}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(34px,7vw,62px);letter-spacing:-.02em;line-height:1.02}
+h1 .ac{color:var(--accent)}
+.sub{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);margin-top:10px}
+.lead{font-family:var(--serif);font-weight:600;font-size:clamp(18px,2.6vw,24px);max-width:30ch;margin:28px 0 6px;line-height:1.25}
+.lead.en{font-weight:400;font-size:15px;color:var(--ink2);font-family:var(--sans);max-width:62ch}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:38px}
+@media(max-width:680px){.cards{grid-template-columns:1fr}}
+a.card{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--paper);padding:26px 24px;
+ text-decoration:none;color:var(--ink);transition:transform .14s,box-shadow .14s;position:relative;min-height:210px}
+a.card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
+a.card .tag{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+ color:var(--paper);background:var(--ink);align-self:flex-start;padding:3px 8px}
+a.card h2{font-family:var(--serif);font-weight:900;font-size:27px;margin:16px 0 8px;line-height:1.05}
+a.card p{font-size:14px;color:var(--ink2);flex:1}
+a.card .go{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);margin-top:14px}
+.badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.b{font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;padding:2px 7px}
+.b1{background:var(--L1)}.b2{background:var(--L2)}.b3{background:var(--L3)}
+.facts{margin-top:46px;border:1.5px solid var(--ink);background:var(--paper2);padding:20px 24px}
+.facts h3{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:12px}
+.facts ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 22px}
+.facts li{font-size:13.5px;display:flex;gap:8px}
+.facts li b{font-family:var(--serif);font-weight:900;font-size:20px;line-height:1}
+footer{margin-top:40px;border-top:3px solid var(--ink);padding-top:18px;font-family:var(--mono);font-size:11px;color:var(--ink2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header>
+  <h1>AI Trustworthiness<br><span class="ac">Fact Label</span></h1>
+  <div class="sub">AI-TFL · 신뢰성 사실 라벨</div>
+ </header>
+
+ <p class="lead">“신뢰하라”가 아니라 “검증하라, 비교하라.”</p>
+ <p class="lead en">This label doesn’t say “trust us” — it says “verify, and compare.” An eco-label-style (ISO 14021 Type II) self-declared fact label that turns unverifiable AI trustworthiness into pre-purchase, comparable, machine-readable information.</p>
+
+ <div class="cards">
+  <a class="card" href="dashboard.html">
+   <span class="tag">Dashboard · 6 views</span>
+   <h2>Claim 대시보드</h2>
+   <p>72개 selected claim · 17 trustworthiness 특성. 카탈로그·제품 프로파일·이해관계자 수요·규제 매핑을 탐색. 한/영 · 검증등급·표준연계·규제근거·수명주기 메타.</p>
+   <div class="badges"><span class="b b1">L1 자기선언</span><span class="b b2">L2 입증공개</span><span class="b b3">L3 제3자검증</span></div>
+   <span class="go">→ 열기 / Open</span>
+  </a>
+  <a class="card" href="label-render.html">
+   <span class="tag">Renderer · B2C / B2B</span>
+   <h2>라벨 렌더러</h2>
+   <p>라벨 인스턴스(JSON)를 “AI Trustworthiness Facts” 사실 라벨로 시각화. 전면(FOP) Assurance Grade A–E + 핵심 5신호, B2C/B2B 뷰, 적합성 판정. JSON 붙여넣기 렌더.</p>
+   <div class="badges"><span class="b b3">Grade A–E</span><span class="b b1">FOP 5</span></div>
+   <span class="go">→ 열기 / Open</span>
+  </a>
+ </div>
+
+ <div class="facts">
+  <h3>At a glance</h3>
+  <ul>
+   <li><b>72</b><span>selected claims</span></li>
+   <li><b>17</b><span>TS 5723 특성</span></li>
+   <li><b>L1·L2·L3</b><span>검증 등급</span></li>
+   <li><b>6</b><span>제품유형 프로파일</span></li>
+  </ul>
+ </div>
+
+ <footer>
+  <span>ISO 14021 Type II · ISO/IEC TS 5723 · ISO/IEC SC 42 · EU AI Act</span>
+  <span><a href="https://github.com/hollobit/AI-TFL">github.com/hollobit/AI-TFL</a></span>
+ </footer>
+</div>
+</body>
+</html>
