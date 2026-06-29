@@ -197,6 +197,7 @@ footer{border-top:3px solid var(--line);padding:22px 0;font-family:var(--mono);f
  <section class="view" id="v-stakeholder">
   <div class="rule"><span class="num">S</span><h2 data-ui="nav_stakeholder"></h2></div>
   <p class="ab" data-ui="sh_intro"></p>
+  <div class="legend" id="sh-actors"></div>
   <div class="tablewrap"><table id="shtable" class="heat"></table></div>
   <div class="legend" data-ui="sh_legend"></div>
  </section>
@@ -359,6 +360,7 @@ function renderStakeholder(){
    (c.demand||[]).map(v=>`<td class="cell d${v}">${sym[v]}</td>`).join('')+`</tr>`;
  });
  document.getElementById('shtable').innerHTML=h;
+ document.getElementById('sh-actors').innerHTML=D.order.map(a=>`<span class="b"><b>${a}</b> = ${D.actors[a]?D.actors[a][lang]:a}</span>`).join('  ·  ');
 }
 function renderRegulatory(){
  document.getElementById('regmap').innerHTML=D.regmap.map(fw=>`
