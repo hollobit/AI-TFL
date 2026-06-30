@@ -280,12 +280,28 @@ const T=(k)=>D.ui[k]?D.ui[k][lang]:k;
 function setLang(l){lang=l;document.documentElement.lang=l;
  document.getElementById('ko').classList.toggle('on',l==='ko');
  document.getElementById('en').classList.toggle('on',l==='en');
- paintStatic();buildChips();render();renderProfiles();renderOverview();renderStakeholder();renderRegulatory();renderStandards();}
+ paintStatic();buildChips();render();renderProfiles();renderOverview();renderStakeholder();renderRegulatory();renderStandards();
+ const _h=decodeURIComponent(location.hash.replace(/^#/,''));if(_h.indexOf('claim/')===0)showModal(_h.slice(6));}
 
-function setView(v){document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+const VIEWS=['overview','catalog','profiles','stakeholder','regulatory','standards','about'];
+let curView='overview';
+function applyView(v){if(!document.getElementById('v-'+v))v='overview';curView=v;
+ document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
  document.getElementById('v-'+v).classList.add('on');
  document.querySelectorAll('.navb').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
  window.scrollTo({top:0,behavior:'smooth'});}
+// URL 해시 라우팅: #<view> / #claim/<id>
+function setView(v){location.hash=v;}
+function applyRoute(){
+ const h=decodeURIComponent(location.hash.replace(/^#/,''));
+ if(h.indexOf('claim/')===0){
+  if(!document.querySelector('.view.on'))applyView('catalog');
+  showModal(h.slice(6));
+ } else {
+  document.getElementById('modal').classList.remove('on');
+  applyView(VIEWS.indexOf(h)>=0?h:'overview');
+ }}
+window.addEventListener('hashchange',applyRoute);
 
 function paintStatic(){
  document.querySelectorAll('[data-ui]').forEach(e=>{e.textContent=T(e.dataset.ui)});
@@ -341,8 +357,9 @@ function render(){
 }
 function setCatView(v){catView=v;render();}
 
-function openM(id){
- const c=D.claims.find(x=>x.id===id);if(!c)return;const ch=D.chars[c.char];
+function openM(id){location.hash='claim/'+encodeURIComponent(id);}
+function showModal(id){
+ const c=D.claims.find(x=>x.id===id);if(!c){document.getElementById('modal').classList.remove('on');return;}const ch=D.chars[c.char];
  document.getElementById('sheet').innerHTML=`
   <div class="shd"><div><h3>${c.term[lang]}</h3>
    <div class="sub">${c.id} · ${ch[lang]} (${ch.ref}) · ${c.level}</div></div>
@@ -364,7 +381,9 @@ function openM(id){
   </div>`;
  document.getElementById('modal').classList.add('on');
 }
-function closeM(){document.getElementById('modal').classList.remove('on');}
+function closeM(){
+ if(decodeURIComponent(location.hash.replace(/^#/,'')).indexOf('claim/')===0){location.hash=curView;}
+ else{document.getElementById('modal').classList.remove('on');}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
 
 function renderProfiles(){
@@ -448,7 +467,7 @@ function renderStandards(){
   return `<div class="regframe">${head}${claimsBody(arr, stdView, 'grid stdgrid')}</div>`;
  }).join('');
 }
-function boot(){paintStatic();buildChips();renderOverview();render();renderProfiles();renderStakeholder();renderRegulatory();renderStandards();}
+function boot(){paintStatic();buildChips();renderOverview();render();renderProfiles();renderStakeholder();renderRegulatory();renderStandards();applyRoute();}
 boot();
 </script>
 </body>
