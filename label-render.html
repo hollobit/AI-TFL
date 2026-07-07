@@ -63,7 +63,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-heigh
 .lgh .lgn{font-family:var(--mono);font-size:11px;color:var(--ink2)}
 .clogo.xl{width:96px;height:96px;margin:0 auto}
 .logogal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding:18px}
-.lgi{border:1.5px solid var(--ink);background:var(--paper);padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.lgi{border:1.5px solid var(--ink);background:var(--paper);padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.lgi:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
 .lgi .lgid{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent)}
 .lgi .lgnm{font-family:var(--serif);font-weight:600;font-size:13.5px;line-height:1.25}
 .tflbtns button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -179,7 +180,7 @@ const STR={
  logo_menu:{ko:'라벨 로고',en:'Claim logos',zh:'声明标志'},
  all_tiers:{ko:'전체',en:'All',zh:'全部'},
  logo_title:{ko:'Type II 자기선언 claim 로고',en:'Type II self-declared claim logos',zh:'Type II 自我声明 claim 标志'},
- logo_intro:{ko:'eco-label 마크(뫼비우스 루프)와 동형의 claim 마크 — 단색 픽토그램, 라벨·제품 표면·문서에 동일하게 표시.',en:'Claim marks isomorphic to eco-label symbols (Möbius loop) — monochrome pictograms shown identically on labels, product surfaces and documents.',zh:'与环保标签符号（莫比乌斯环）同构的 claim 标志——单色图标，可同样显示于标签·产品表面·文档。'},
+ logo_intro:{ko:'eco-label 마크(뫼비우스 루프)와 동형의 claim 마크 — 단색 픽토그램, 라벨·제품 표면·문서에 동일하게 표시. 로고를 클릭하면 claim 상세 정보(대시보드)가 열립니다.',en:'Claim marks isomorphic to eco-label symbols (Möbius loop) — monochrome pictograms shown identically on labels, product surfaces and documents. Click a logo to open the full claim detail (dashboard).',zh:'与环保标签符号（莫比乌斯环）同构的 claim 标志——单色图标，可同样显示于标签·产品表面·文档。点击标志可打开该 claim 的详细信息（仪表板）。'},
  t_ev:{ko:'🥈 입증',en:'🥈 Evidenced',zh:'🥈 证据'}, t_dec:{ko:'🥉 선언',en:'🥉 Declared',zh:'🥉 声明'}, t_ver:{ko:' +🥇검증',en:' +🥇Verified',zh:' +🥇验证'},
  qd_title:{ko:'정량 선언 (EPD형 · ISO 14025 참조)',en:'Quantitative declaration (EPD-style · cf. ISO 14025)',zh:'定量声明（EPD 型 · 参照 ISO 14025）'},
  qd_reg:{ko:'등록번호',en:'Registration',zh:'注册号'}, qd_op:{ko:'프로그램 운영자',en:'Program operator',zh:'项目运营方'},
@@ -218,6 +219,7 @@ function paintTfl(){var box=document.getElementById('tfl-btns');if(!box||!D.tflT
 function paintSide(){document.getElementById('side-title').textContent=t('side_title');document.getElementById('btn-render').textContent=t('render');document.getElementById('btn-ex').textContent=t('ex');var bl=document.getElementById('btn-logos');if(bl){bl.textContent=t('logo_menu');bl.classList.toggle('on',exMode==='logos');}document.getElementById('hint').textContent=t('hint');paintTypeSel();paintTfl();}
 function loadExample(tp){if(tp)curType=tp;exMode='ptype';isExample=true;inst=exFor(curType,lang);document.getElementById('json').value=JSON.stringify(inst,null,2);document.getElementById('err').textContent='';var sel=document.getElementById('ex-type');if(sel)sel.value=curType;paintTfl();render();}
 function loadTflExample(tp){if(tp)curTfl=tp;exMode='tfl';isExample=true;inst=tflFor(curTfl,lang);document.getElementById('json').value=JSON.stringify(inst,null,2);document.getElementById('err').textContent='';paintTfl();render();}
+function openClaim(id){window.open('dashboard.html#claim/'+encodeURIComponent(id),'_blank');}
 function tipOf(id){var m=D.logoMeanings&&D.logoMeanings[id];return m?(id+' · '+(m[lang]||m.en)):id;}
 function tierOf(lv){lv=lv||'';return lv.indexOf('L3')===0?3:lv.indexOf('L2')===0?2:1;}
 let logoTier='all';
@@ -228,7 +230,7 @@ function showLogos(tier){
  var tabs=['all',1,2,3].map(function(x){var lb=x==='all'?t('all_tiers'):'L'+x+' · '+t('L'+x);
    return '<button class="'+(logoTier===x?'on':'')+'" onclick="showLogos('+(x==='all'?"'all'":x)+')">'+lb+'</button>';}).join('');
  function grid(list){return '<div class="logogal">'+list.map(function(id){var lk=D.claims[id]||{};var nm=lk[lang]||lk.en||id;
-   var tv=tierOf(lk.level); return '<div class="lgi" data-tip="'+esc(tipOf(id))+'"><span class="clogo xl lvc'+tv+'">'+D.logos[id]+'</span><span class="lgid">'+id+' · '+(lk.level||'')+'</span><span class="lgnm">'+nm+'</span></div>';}).join('')+'</div>';}
+   var tv=tierOf(lk.level); return '<div class="lgi" data-tip="'+esc(tipOf(id))+'" onclick="openClaim(\''+id+'\')"><span class="clogo xl lvc'+tv+'">'+D.logos[id]+'</span><span class="lgid">'+id+' · '+(lk.level||'')+'</span><span class="lgnm">'+nm+'</span></div>';}).join('')+'</div>';}
  var body='';
  if(logoTier==='all'){
   [1,2,3].forEach(function(tv){var list=ids.filter(function(id){return tierOf((D.claims[id]||{}).level)===tv;});
