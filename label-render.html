@@ -48,6 +48,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-heigh
 .cl{padding:9px 18px;border-bottom:1px dotted #c7bda8}
 .clogo{width:24px;height:24px;flex-shrink:0;color:var(--accent);display:inline-flex;align-self:flex-start;margin-top:1px}
 .clogo svg{width:100%;height:100%}
+.clogo[onclick]{cursor:pointer}
 .clogo.sm{width:18px;height:18px;flex-shrink:0;align-self:center;margin-top:0}
 .clogo.lv2,.clogo.lvc2{color:var(--L2)}
 .clogo.lvc3{color:var(--L3)}
@@ -330,7 +331,7 @@ function render(){
  let picks=mk.map(declBy).filter(Boolean);
  (o.claims||[]).filter(c=>c.status=='declared'&&!picks.includes(c)).forEach(c=>{if(picks.length<5)picks.push(c)});
  const sigs=picks.slice(0,5).map(c=>{const lk=D.claims[c.claimId]||{ko:c.claimId,en:c.claimId};const lv=lvOf(c.verificationLevel);
-   const slg=(D.logos&&D.logos[c.claimId])?`<span class="clogo sm lvc${lvOf(c.verificationLevel)}" data-tip="${tipOf(c.claimId)}">${D.logos[c.claimId]}</span>`:'';
+   const slg=(D.logos&&D.logos[c.claimId])?`<span class="clogo sm lvc${lvOf(c.verificationLevel)}" data-tip="${tipOf(c.claimId)}" onclick="openClaim('${c.claimId}')">${D.logos[c.claimId]}</span>`:'';
    return `<div class="sig"><div class="st"><span style="display:inline-flex;align-items:center;gap:5px">${slg}${lk[lang]}</span><span class="sv">${valStr(c)}</span></div><span class="sb l${lv}">${c.verificationLevel} · ${t('L'+lv)}</span></div>`;}).join('');
  const fop=`<div class="fop"><div class="grade g${gr}"><div class="g">${gr}</div><div class="gl">${t('grade_lab')}</div></div><div class="sigs">${sigs}</div></div>`;
  // group claims by characteristic in applicable order
@@ -358,7 +359,7 @@ function render(){
       if(mm)ev+=`<div class="meta2">${mm}</div>`;}
     if(c.standardRef&&!(m&&m.standardRef))ev+=`<div class="meta2"><b>§ ${c.standardRef}</b></div>`;
    }
-   const lg=(D.logos&&D.logos[c.claimId])?`<span class="clogo lvc${lvOf(c.verificationLevel)}" data-tip="${tipOf(c.claimId)}">${D.logos[c.claimId]}</span>`:'';
+   const lg=(D.logos&&D.logos[c.claimId])?`<span class="clogo lvc${lvOf(c.verificationLevel)}" data-tip="${tipOf(c.claimId)}" onclick="openClaim('${c.claimId}')">${D.logos[c.claimId]}</span>`:'';
    return `<div class="cl"><div class="hd">${lg}
      <span class="nm">${lk[lang]}</span>
      <span class="val">${valStr(c)}</span>
