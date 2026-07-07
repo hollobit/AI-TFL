@@ -139,6 +139,7 @@ table.heat td.rowh{font-size:12px;white-space:nowrap}
 .clogo.sm{width:20px;height:20px;margin-right:8px;align-self:center}
 .clogo.xl{width:44px;height:44px;margin-right:12px;align-self:flex-start}
 .clogo.lvc2{color:var(--L2)}.clogo.lvc3{color:var(--L3)}
+.clogo.lvci{color:var(--ink)}
 .jstip{position:fixed;display:none;z-index:2147483000;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:11.5px;font-weight:400;line-height:1.45;text-align:left;padding:7px 10px;max-width:260px;pointer-events:none;box-shadow:3px 3px 0 rgba(27,24,19,.3)}
 .stdviewtoggle{margin:0 0 16px}
 .stdviewtoggle .toggle{display:inline-flex;border:1.5px solid var(--ink);font-family:var(--mono);font-size:12px;font-weight:600}
@@ -420,7 +421,7 @@ function openM(id){location.hash='claim/'+encodeURIComponent(id);}
 function showModal(id){
  const c=D.claims.find(x=>x.id===id);if(!c){document.getElementById('modal').classList.remove('on');return;}const ch=D.chars[c.char];
  document.getElementById('sheet').innerHTML=`
-  <div class="shd">${logoOf(c.id,c.level,'xl')}<div style="flex:1"><h3>${c.term[lang]}</h3>
+  <div class="shd">${logoOf(c.id,c.level,'xl',c.tfltype)}<div style="flex:1"><h3>${c.term[lang]}</h3>
    <div class="sub">${c.id} · ${ch[lang]} (${ch.ref}) · ${c.level}</div></div>
    <button class="x" onclick="closeM()">×</button></div>
   <div class="sbd">
@@ -511,11 +512,11 @@ function renderRegulatory(){
 }
 function tierCat(lv){lv=lv||'';return lv.indexOf('L3')===0?3:lv.indexOf('L2')===0?2:1;}
 function tipOf(id){var m=D.logoMeanings&&D.logoMeanings[id];return m?(id+' · '+(m[lang]||m.en)):id;}
-function logoOf(id,lv,cls){if(!(D.logos&&D.logos[id]))return '';return `<span class="clogo ${cls||''} lvc${tierCat(lv)}" data-tip="${tipOf(id)}">${D.logos[id]}</span>`;}
+function logoOf(id,lv,cls,tfl){if(!(D.logos&&D.logos[id]))return '';var cc=(tfl==='III')?'lvci':('lvc'+tierCat(lv));return `<span class="clogo ${cls||''} ${cc}" data-tip="${tipOf(id)}">${D.logos[id]}</span>`;}
 function cCard(c){
  const ch=D.chars[c.char]||{ko:c.char,en:c.char,ref:''};
  return `<div class="card" onclick='openM("${c.id}")'>
-   <div class="hd"><span style="display:inline-flex;align-items:center;gap:7px">${logoOf(c.id,c.level)}<span class="cid">${c.id}</span></span>${badge(c.level)}</div>
+   <div class="hd"><span style="display:inline-flex;align-items:center;gap:7px">${logoOf(c.id,c.level,"",c.tfltype)}<span class="cid">${c.id}</span></span>${badge(c.level)}</div>
    <div class="bd">
     <div class="ctermrow"><span class="cterm">${c.term[lang]}</span></div>
     <span class="cchar">${ch[lang]} · ${ch.ref}</span> <span class="lifetag">${D.life_labels[c.life]?D.life_labels[c.life][lang]:c.life}</span>
@@ -530,7 +531,7 @@ function claimsBody(arr, mode, cls){
  if(mode==='id') return `<div class="chiprow cl-row">${arr.map(c=>
    `<span class="regchip" onclick='openM("${c.id}")' title="${c.term[lang]}">${c.id}</span>`).join('')}</div>`;
  return `<div class="stdlist">${arr.map(c=>{const ch=D.chars[c.char];
-   return `<div class="stdrow" onclick='openM("${c.id}")'>${logoOf(c.id,c.level,'sm')}<span class="cid">${c.id}</span>`+
+   return `<div class="stdrow" onclick='openM("${c.id}")'>${logoOf(c.id,c.level,'sm',c.tfltype)}<span class="cid">${c.id}</span>`+
      `<span class="srterm">${c.term[lang]}</span>`+
      `<span class="srchar">${ch?ch[lang]:c.char}</span>${badge(c.level)}</div>`;}).join('')}</div>`;
 }
