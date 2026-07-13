@@ -3,114 +3,101 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Trustworthiness Fact Label — AI-TFL</title>
-<meta name="description" content="ISO/IEC 42117-2 Type II 자기선언 방식의 AI 신뢰성 사실 라벨 — 카탈로그 대시보드 + 라벨 렌더러">
+<title>TFL Proposal Workspace — AI Trustworthiness Fact Label</title>
+<meta name="description" content="ISO/IEC 42117-X를 위한 AI Trustworthiness Fact Label 공통 프레임워크와 Type I–IV 제안 작업공간">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#f2ede0;--paper2:#e9e2d0;--ink:#1b1813;--ink2:#4a443a;--accent:#b23a26;
- --L1:#7a736a;--L2:#2f5d96;--L3:#2c7a4f;
- --serif:'Fraunces','Noto Serif KR',serif;--sans:'IBM Plex Sans','IBM Plex Sans KR',sans-serif;--mono:'IBM Plex Mono',monospace;}
+:root{--paper:#f2ede0;--paper2:#e7dfcd;--ink:#191711;--ink2:#514b40;--accent:#b23a26;--blue:#315e8f;--green:#347253;--gold:#91641e;--line:#191711;--serif:'Fraunces','Noto Serif KR',serif;--sans:'IBM Plex Sans','IBM Plex Sans KR',sans-serif;--mono:'IBM Plex Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;min-height:100vh;
- padding:0 20px 80px;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");}
-.wrap{max-width:920px;margin:0 auto}
-header{border-bottom:3px solid var(--ink);padding:54px 0 22px;position:relative}
-header::before{content:"ISO/IEC 42117-2 TYPE II";position:absolute;top:54px;right:0;
- font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink2)}
-.langtoggle{position:absolute;top:16px;right:0;display:flex;border:1.5px solid var(--ink);font-family:var(--mono);font-size:12px;font-weight:600}
-.langtoggle button{background:transparent;border:0;padding:5px 11px;cursor:pointer;color:var(--ink);font:inherit}
-.langtoggle button.on{background:var(--ink);color:var(--paper)}
-h1{font-family:var(--serif);font-weight:900;font-size:clamp(34px,7vw,62px);letter-spacing:-.02em;line-height:1.02}
-h1 .ac{color:var(--accent)}
-.sub{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);margin-top:10px}
-.lead{font-family:var(--serif);font-weight:600;font-size:clamp(18px,2.6vw,24px);max-width:32ch;margin:28px 0 6px;line-height:1.25}
-.leadbody{font-weight:400;font-size:15px;color:var(--ink2);font-family:var(--sans);max-width:64ch;margin-top:8px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:38px}
-@media(max-width:680px){.cards{grid-template-columns:1fr}}
-a.card{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--paper);padding:26px 24px;
- text-decoration:none;color:var(--ink);transition:transform .14s,box-shadow .14s;position:relative;min-height:210px}
-a.card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
-a.card .tag{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
- color:var(--paper);background:var(--ink);align-self:flex-start;padding:3px 8px}
-a.card h2{font-family:var(--serif);font-weight:900;font-size:27px;margin:16px 0 8px;line-height:1.05}
-a.card p{font-size:14px;color:var(--ink2);flex:1}
-a.card .go{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);margin-top:14px}
-.badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.b{font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;padding:2px 7px}
-.b1{background:var(--L1)}.b2{background:var(--L2)}.b3{background:var(--L3)}
-.facts{margin-top:46px;border:1.5px solid var(--ink);background:var(--paper2);padding:20px 24px}
-.facts h3{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:12px}
-.facts ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 22px}
-.facts li{font-size:13.5px;display:flex;gap:8px}
-.facts li b{font-family:var(--serif);font-weight:900;font-size:20px;line-height:1}
-footer{margin-top:40px;border-top:3px solid var(--ink);padding-top:18px;font-family:var(--mono);font-size:11px;color:var(--ink2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-footer a{color:var(--accent)}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.032'/%3E%3C/svg%3E")}
+a{color:inherit}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(242,237,224,.96);border-bottom:3px solid var(--line);backdrop-filter:blur(8px)}
+.toprow{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{text-decoration:none;display:flex;align-items:baseline;gap:11px}.brand b{font-family:var(--serif);font-size:22px;font-weight:900}.brand span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink2);text-transform:uppercase}
+.navrow{border-top:1px solid var(--line)}nav{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav a{font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;padding:10px 13px;border-top:3px solid transparent}nav a:hover,nav a:focus-visible{border-top-color:var(--accent)}
+.lang{margin-left:auto;display:flex;border:1px solid var(--ink);flex-shrink:0}.lang button{font:600 10px var(--mono);border:0;background:transparent;padding:5px 8px;cursor:pointer;color:var(--ink)}.lang button.on{background:var(--ink);color:var(--paper)}
+.hero{padding:72px 0 46px;border-bottom:1px solid var(--line)}.eyebrow{font:700 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}h1{font:900 clamp(42px,7.2vw,82px)/.96 var(--serif);letter-spacing:-.035em;max-width:13ch;margin-top:20px}.hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:48px;align-items:end}.lead{font:600 clamp(19px,2.3vw,27px)/1.28 var(--serif);margin-top:30px;max-width:30ch}.body{font-size:15px;color:var(--ink2);max-width:65ch;margin-top:15px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:26px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1.5px solid var(--ink);text-decoration:none;font:700 11px var(--mono);letter-spacing:.02em}.btn.primary{background:var(--ink);color:var(--paper)}.btn:hover,.btn:focus-visible{box-shadow:4px 4px 0 var(--accent);transform:translate(-1px,-1px)}
+.status-note{border:2px solid var(--ink);background:var(--paper2)}.status-note .head{background:var(--accent);color:white;padding:8px 12px;font:700 10px var(--mono);letter-spacing:.08em;text-transform:uppercase}.status-note dl{padding:12px 15px}.status-note div{display:grid;grid-template-columns:78px 1fr;gap:9px;padding:7px 0;border-bottom:1px dotted #b9af9b}.status-note div:last-child{border:0}.status-note dt{font:600 10px var(--mono);color:var(--ink2);text-transform:uppercase}.status-note dd{font-size:12px;font-weight:600}
+section{padding:62px 0;border-bottom:1px solid var(--line)}.section-head{display:grid;grid-template-columns:90px minmax(0,1fr);gap:22px;border-top:6px solid var(--ink);padding-top:12px;margin-bottom:30px}.secno{font:700 11px var(--mono);color:var(--accent)}h2{font:600 clamp(28px,4vw,44px)/1.08 var(--serif);letter-spacing:-.02em}.section-head p{color:var(--ink2);font-size:14px;max-width:70ch;margin-top:10px}
+.rail{border:2px solid var(--ink);min-width:0}.track{display:grid;grid-template-columns:88px 1.1fr 1.2fr .72fr;min-height:112px;min-width:0;border-bottom:1px solid var(--ink);position:relative}.track:last-child{border-bottom:0}.track>*{padding:17px 18px;border-right:1px solid var(--ink);min-width:0}.track>*:last-child{border-right:0}.roman{font:900 35px var(--serif);display:flex;align-items:center;justify-content:center}.track h3{font:700 19px var(--serif);margin-bottom:4px}.track p{font-size:12.5px;color:var(--ink2)}.track .basis{font:600 10px/1.5 var(--mono);overflow-wrap:anywhere}.track .state{font:700 10px var(--mono);text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center}.track.active{background:#f0dfd7}.track.active::before{content:"ACTIVE";position:absolute;left:-2px;top:-22px;background:var(--accent);color:#fff;padding:3px 8px;font:700 9px var(--mono);letter-spacing:.08em}.track:nth-child(1) .roman{color:var(--gold)}.track:nth-child(2) .roman{color:var(--accent)}.track:nth-child(3) .roman{color:var(--green)}.track:nth-child(4) .roman{color:var(--blue)}
+.core-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.core{border:1.5px solid var(--ink);padding:24px}.core h3{font:700 20px var(--serif);padding-bottom:9px;border-bottom:1px solid var(--ink)}.core ol{list-style:none;counter-reset:c;margin-top:10px}.core li{counter-increment:c;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:10px 0;border-bottom:1px dotted #b9af9b;font-size:13px}.core li::before{content:counter(c,decimal-leading-zero);font:700 10px var(--mono);color:var(--accent);padding-top:3px}.core li:last-child{border:0}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ink);margin-top:22px}.level{padding:18px;border-right:1px solid var(--ink)}.level:last-child{border:0}.level b{display:block;font:900 24px var(--serif)}.level span{font-size:12px;color:var(--ink2)}.level:nth-child(1) b{color:#716b61}.level:nth-child(2) b{color:var(--blue)}.level:nth-child(3) b{color:var(--green)}
+.flow{border:2px solid var(--ink);display:grid;grid-template-columns:repeat(4,1fr);margin-top:22px}.flow div{padding:18px;border-right:1px solid var(--ink);min-height:126px;position:relative}.flow div:last-child{border:0}.flow div:not(:last-child)::after{content:"→";position:absolute;right:-11px;top:42%;z-index:2;background:var(--paper);font:700 18px var(--mono);padding:0 3px}.flow b{display:block;font:700 11px var(--mono);color:var(--accent);margin-bottom:9px}.flow p{font-size:12.5px}
+.type2{display:grid;grid-template-columns:1.05fr .95fr;gap:24px}.argument{border-left:8px solid var(--accent);padding:6px 0 6px 24px}.argument h3{font:700 clamp(25px,3vw,35px)/1.12 var(--serif)}.argument p{font-size:14px;color:var(--ink2);margin-top:14px}.checks{border:1.5px solid var(--ink)}.check{display:grid;grid-template-columns:42px 1fr;gap:10px;padding:14px;border-bottom:1px solid var(--ink)}.check:last-child{border:0}.check b{font:900 20px var(--serif);color:var(--accent)}.check span{font-size:12.5px}
+.workspaces{display:grid;grid-template-columns:1fr 1fr;gap:18px}.workspace{border:2px solid var(--ink);padding:25px;text-decoration:none;min-height:218px;display:flex;flex-direction:column}.workspace .tag{font:700 10px var(--mono);color:var(--accent);text-transform:uppercase}.workspace h3{font:900 27px/1.05 var(--serif);margin:15px 0 9px}.workspace p{font-size:13px;color:var(--ink2);max-width:48ch}.workspace .go{margin-top:auto;padding-top:22px;font:700 11px var(--mono)}.workspace:hover,.workspace:focus-visible{background:var(--ink);color:var(--paper)}.workspace:hover p,.workspace:focus-visible p{color:var(--paper2)}
+.ask{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ink);margin-top:26px}.ask div{padding:19px;border-right:1px solid var(--ink)}.ask div:last-child{border:0}.ask b{display:block;font:700 13px var(--serif);margin-bottom:6px}.ask span{font-size:12px;color:var(--ink2)}
+footer{padding:30px 0 60px}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:10px/1.6 var(--mono);color:var(--ink2)}.foot strong{color:var(--accent)}
+@media(max-width:780px){body{overflow-x:hidden}.wrap{width:auto;max-width:none;margin-left:14px;margin-right:14px}.toprow{width:auto;min-height:58px;padding:0;margin-left:14px;margin-right:14px}.toprow>*{min-width:0}.brand span{display:none}.navrow .wrap{width:auto;margin:0;padding-left:14px}.lang{display:flex;margin-left:0;margin-right:0}.hero{padding-top:48px}.hero-grid,.core-grid,.type2{grid-template-columns:minmax(0,1fr)}.hero-grid{gap:30px}.hero-grid>*{min-width:0}.status-note{width:100%;max-width:100%;overflow:hidden}.status-note dd{overflow-wrap:anywhere}.track{grid-template-columns:64px minmax(0,1fr)}.track>*{border-right:0;overflow-wrap:anywhere}.track .roman{grid-row:1/4;border-right:1px solid var(--ink)}.track .basis{border-top:1px dotted #b9af9b}.track .state{justify-content:flex-start;border-top:1px dotted #b9af9b}.flow{grid-template-columns:1fr}.flow div{border-right:0;border-bottom:1px solid var(--ink);min-height:0}.flow div:last-child{border-bottom:0}.flow div:not(:last-child)::after{content:"↓";right:18px;top:auto;bottom:-14px}.workspaces,.ask{grid-template-columns:1fr}.ask div{border-right:0;border-bottom:1px solid var(--ink)}.ask div:last-child{border:0}.section-head{grid-template-columns:56px minmax(0,1fr)}}
+@media(max-width:520px){.brand b{font-size:18px}h1{font-size:43px}.levels{grid-template-columns:1fr}.level{border-right:0;border-bottom:1px solid var(--ink)}.level:last-child{border:0}.workspaces{gap:12px}.status-note div{grid-template-columns:70px 1fr}.actions .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
- <header>
-  <div class="langtoggle"><button id="ko" class="on" onclick="setLang('ko')">한국어</button><button id="en" onclick="setLang('en')">English</button><button id="zh" onclick="setLang('zh')">中文</button></div>
-  <h1>AI Trustworthiness<br><span class="ac">Fact Label</span></h1>
-  <div class="sub" data-ko="AI-TFL · 신뢰성 사실 라벨" data-en="AI-TFL · Trustworthiness Fact Label" data-zh="AI-TFL · 可信性事实标签">AI-TFL · 신뢰성 사실 라벨</div>
- </header>
-
- <p class="lead" data-ko="“신뢰하라”가 아니라 “검증하라, 비교하라.”" data-en="Don’t say “trust us” — say “verify, and compare.”" data-zh="不说“请相信我们”——而说“请验证，请比较”。">“신뢰하라”가 아니라 “검증하라, 비교하라.”</p>
- <p class="leadbody" data-ko="검증 불가능한 AI 신뢰성을 구매 전 비교 가능한 정보로 바꾸는, eco-label과 동형의 ISO/IEC 42117-2 Type II 자기선언 사실 라벨. 카탈로그·프로파일·규제·SC 42 표준 매핑을 한곳에서." data-en="An eco-label-style, ISO/IEC 42117-2 Type II self-declared fact label that turns unverifiable AI trustworthiness into pre-purchase, comparable, machine-readable information." data-zh="将无法验证的 AI 可信性转化为购买前可比较的信息——与环保标签同构的 ISO/IEC 42117-2 Type II 自我声明事实标签。目录、配置、法规与 SC 42 标准映射，尽在一处。">검증 불가능한 AI 신뢰성을 구매 전 비교 가능한 정보로 바꾸는, eco-label과 동형의 ISO/IEC 42117-2 Type II 자기선언 사실 라벨. 카탈로그·프로파일·규제·SC 42 표준 매핑을 한곳에서.</p>
-
- <div class="cards">
-  <a class="card" href="dashboard.html">
-   <span class="tag">Dashboard · 7 views</span>
-   <h2 data-ko="Claim 대시보드" data-en="Claim Dashboard" data-zh="声明仪表板">Claim 대시보드</h2>
-   <p data-ko="91개 selected claim · 28 TCM (ISO/IEC 42117-X 정합). 카탈로그·제품 프로파일·이해관계자 수요·규제·SC 42 표준 매핑을 탐색. 검증등급·표준연계·규제근거·수명주기·TFL Type 메타." data-en="91 selected claims · 28 TCM (aligned to ISO/IEC 42117-X). Explore the catalog, product profiles, stakeholder demand, regulatory & SC 42 standards mapping. Verification tier, standards, regulation, lifecycle, TFL Type metadata." data-zh="91 项精选声明 · 28 TCM（对齐 ISO/IEC 42117-X）。浏览目录、产品配置、利益相关方需求、法规与 SC 42 标准映射。含验证等级、标准关联、法规依据、生命周期、TFL Type 元数据。">91개 selected claim · 28 TCM (ISO/IEC 42117-X 정합). 카탈로그·제품 프로파일·이해관계자 수요·규제·SC 42 표준 매핑을 탐색. 검증등급·표준연계·규제근거·수명주기·TFL Type 메타.</p>
-   <div class="badges"><span class="b b1" data-ko="L1 자기선언" data-en="L1 Self-declared" data-zh="L1 自我声明">L1 자기선언</span><span class="b b2" data-ko="L2 입증공개" data-en="L2 Evidenced" data-zh="L2 证据公开">L2 입증공개</span><span class="b b3" data-ko="L3 제3자검증" data-en="L3 3rd-party" data-zh="L3 第三方验证">L3 제3자검증</span></div>
-   <span class="go" data-ko="→ 열기" data-en="→ Open" data-zh="→ 打开">→ 열기</span>
-  </a>
-  <a class="card" href="label-render.html">
-   <span class="tag">Renderer · B2C / B2B</span>
-   <h2 data-ko="라벨 렌더러" data-en="Label Renderer" data-zh="标签渲染器">라벨 렌더러</h2>
-   <p data-ko="라벨 인스턴스(JSON)를 “AI Trustworthiness Facts” 사실 라벨로 시각화. 전면(FOP) Assurance Grade A–E + 핵심 5신호, B2C/B2B 뷰, 적합성 판정. JSON 붙여넣기 렌더." data-en="Render a label instance (JSON) as an “AI Trustworthiness Facts” label. Front-of-pack Assurance Grade A–E + key-5 signals, B2C/B2B views, conformance verdict. Paste JSON to render." data-zh="将标签实例（JSON）渲染为“AI Trustworthiness Facts”事实标签。前置（FOP）保障等级 A–E + 关键 5 信号、B2C/B2B 视图、符合性判定。粘贴 JSON 即可渲染。">라벨 인스턴스(JSON)를 “AI Trustworthiness Facts” 사실 라벨로 시각화. 전면(FOP) Assurance Grade A–E + 핵심 5신호, B2C/B2B 뷰, 적합성 판정. JSON 붙여넣기 렌더.</p>
-   <div class="badges"><span class="b b3">Grade A–E</span><span class="b b1">FOP 5</span></div>
-   <span class="go" data-ko="→ 열기" data-en="→ Open" data-zh="→ 打开">→ 열기</span>
-  </a>
+<header class="topbar">
+ <div class="wrap toprow">
+  <a class="brand" href="#top"><b>TFL</b><span>Trustworthiness Fact Label</span></a>
+  <div class="lang" aria-label="Language"><button id="ko" class="on" onclick="setLang('ko')">KO</button><button id="en" onclick="setLang('en')">EN</button><button id="zh" onclick="setLang('zh')">中文</button></div>
  </div>
+ <div class="navrow"><div class="wrap"><nav aria-label="Main navigation">
+  <a href="#framework" data-ko="공통 프레임워크" data-en="Common framework" data-zh="共同框架">공통 프레임워크</a>
+  <a href="#types" data-ko="네 가지 Type" data-en="Four Types" data-zh="四种类型">네 가지 Type</a>
+  <a href="#type-ii" data-ko="Type II 제안" data-en="Type II proposal" data-zh="Type II 提案">Type II 제안</a>
+  <a href="#prototype" data-ko="프로토타입" data-en="Prototype" data-zh="原型">프로토타입</a>
+  <a href="#review" data-ko="검토 요청" data-en="Review asks" data-zh="审查重点">검토 요청</a>
+ </nav></div></div>
+</header>
+<main id="top">
+ <div class="wrap hero"><div class="hero-grid"><div>
+  <div class="eyebrow">ISO/IEC 42117-X · proposal workspace</div>
+  <h1>One fact model.<br>Four trust signals.</h1>
+  <p class="lead" data-ko="AI 신뢰성을 ‘믿으라’는 문구가 아니라, 검증하고 비교할 수 있는 사실로 바꿉니다." data-en="Turn AI trustworthiness from a promise into facts people can verify and compare." data-zh="将 AI 可信性从承诺转化为可验证、可比较的事实。">AI 신뢰성을 ‘믿으라’는 문구가 아니라, 검증하고 비교할 수 있는 사실로 바꿉니다.</p>
+  <p class="body" data-ko="TFL은 하나의 claim·증거·제품 프로파일 모델을 공유하면서, 목적과 보증 메커니즘에 따라 Type I·II·III·IV를 구분하는 제안 프레임워크입니다. 현재 작업의 중심은 낮은 진입장벽과 시장 확산성을 갖는 Type II 자기선언입니다." data-en="TFL is a proposed framework in which Types I–IV share one claim, evidence and product-profile model while using different assurance mechanisms. The active workstream is Type II self-declaration, chosen for low entry barriers and market adoption." data-zh="TFL 是一个提案框架：Type I–IV 共用声明、证据和产品配置模型，但采用不同的保障机制。当前重点是进入门槛低、易于市场采用的 Type II 自我声明。">TFL은 하나의 claim·증거·제품 프로파일 모델을 공유하면서, 목적과 보증 메커니즘에 따라 Type I·II·III·IV를 구분하는 제안 프레임워크입니다. 현재 작업의 중심은 낮은 진입장벽과 시장 확산성을 갖는 Type II 자기선언입니다.</p>
+  <div class="actions"><a class="btn primary" href="dashboard.html" data-page="dashboard.html" data-ko="공통 데이터 모델 탐색 →" data-en="Explore the common data model →" data-zh="浏览共同数据模型 →">공통 데이터 모델 탐색 →</a><a class="btn" href="label-render.html" data-page="label-render.html" data-ko="Type별 라벨 보기 →" data-en="View labels by Type →" data-zh="按类型查看标签 →">Type별 라벨 보기 →</a></div>
+ </div><aside class="status-note" aria-label="Proposal status"><div class="head" data-ko="제안 상태 — 오해 방지" data-en="Proposal status — scope notice" data-zh="提案状态 — 范围说明">제안 상태 — 오해 방지</div><dl>
+  <div><dt>Framework</dt><dd data-ko="ISO/IEC 42117-X 제안 작업공간" data-en="ISO/IEC 42117-X proposal workspace" data-zh="ISO/IEC 42117-X 提案工作区">ISO/IEC 42117-X 제안 작업공간</dd></div>
+  <div><dt>Active</dt><dd data-ko="Type II · 자기선언" data-en="Type II · self-declaration" data-zh="Type II · 自我声明">Type II · 자기선언</dd></div>
+  <div><dt>Next</dt><dd data-ko="Type IV → III → I 제안 고도화" data-en="Type IV → III → I proposal development" data-zh="Type IV → III → I 提案深化">Type IV → III → I 제안 고도화</dd></div>
+  <div><dt>Boundary</dt><dd data-ko="발행 표준·인증서·제품 보증이 아닌 예시" data-en="Illustrative; not a published standard, certificate or product warranty" data-zh="仅作示例；非已发布标准、证书或产品保证">발행 표준·인증서·제품 보증이 아닌 예시</dd></div>
+ </dl></aside></div></div>
 
- <div class="facts">
-  <h3 data-ko="한눈에" data-en="At a glance" data-zh="一览">한눈에</h3>
-  <ul>
-   <li><b>91</b><span data-ko="selected claims" data-en="selected claims" data-zh="项精选声明">selected claims</span></li>
-   <li><b>28</b><span data-ko="TCM 특성 (42117-X)" data-en="TCM characteristics (42117-X)" data-zh="TCM 特性 (42117-X)">TCM 특성 (42117-X)</span></li>
-   <li><b>L1·L2·L3</b><span data-ko="검증 등급 / TFL Type I–IV" data-en="Verification tiers / TFL Type I–IV" data-zh="验证等级 / TFL Type I–IV">검증 등급 / TFL Type I–IV</span></li>
-   <li><b>8</b><span data-ko="제품유형 프로파일" data-en="product-type profiles" data-zh="产品类型配置">제품유형 프로파일</span></li>
-  </ul>
- </div>
+ <section id="types"><div class="wrap"><div class="section-head"><span class="secno">01 / TYPES</span><div><h2 data-ko="하나의 목적, 네 가지 병렬 메커니즘" data-en="One purpose, four parallel mechanisms" data-zh="一个目标，四种并行机制">하나의 목적, 네 가지 병렬 메커니즘</h2><p data-ko="Type은 우열이나 성숙도 단계가 아닙니다. 동일한 사실모델을 서로 다른 선언 목적·운영주체·검증 방식으로 표현합니다." data-en="Types are neither rankings nor maturity stages. They express the same fact model through different purposes, operators and verification mechanisms." data-zh="类型不是等级或成熟度阶段，而是以不同目的、运营主体和验证机制表达同一事实模型。">Type은 우열이나 성숙도 단계가 아닙니다. 동일한 사실모델을 서로 다른 선언 목적·운영주체·검증 방식으로 표현합니다.</p></div></div>
+ <div class="rail">
+  <article class="track"><div class="roman">I</div><div><h3 data-ko="프로그램 기반 제3자 인증" data-en="Program-based third-party certification" data-zh="项目制第三方认证">프로그램 기반 제3자 인증</h3><p data-ko="사전 정의된 기준과 적합성 평가에 따른 인증 표시" data-en="Certification mark against predefined criteria and conformity assessment" data-zh="依据预定义准则和合格评定的认证标志">사전 정의된 기준과 적합성 평가에 따른 인증 표시</p></div><div class="basis">ISO 14024-inspired · certification body · scheme rules</div><div class="state" data-ko="개념 검토" data-en="Concept review" data-zh="概念审查">개념 검토</div></article>
+  <article class="track active"><div class="roman">II</div><div><h3 data-ko="검증가능한 자기선언" data-en="Verifiable self-declaration" data-zh="可验证的自我声明">검증가능한 자기선언</h3><p data-ko="선언주체가 정확·비오도 claim과 입증자료를 공개" data-en="Declarant publishes accurate, non-misleading claims and substantiation" data-zh="声明方公开准确、非误导的声明与佐证">선언주체가 정확·비오도 claim과 입증자료를 공개</p></div><div class="basis">ISO 14021-inspired · claim rules · ex-post substantiation</div><div class="state" data-ko="활성 제안" data-en="Active proposal" data-zh="当前提案">활성 제안</div></article>
+  <article class="track"><div class="roman">III</div><div><h3 data-ko="정량 신뢰성 선언" data-en="Quantitative trustworthiness declaration" data-zh="定量可信性声明">정량 신뢰성 선언</h3><p data-ko="범주규칙·선언단위·benchmark·SC 42 방법을 고정해 정량값 공개" data-en="Quantitative values under fixed category rules, declared units, benchmarks and SC 42 methods" data-zh="依据固定类别规则、声明单位、基准和 SC 42 方法公开定量值">범주규칙·선언단위·benchmark·SC 42 방법을 고정해 정량값 공개</p></div><div class="basis">ISO 14025/EPD-inspired · PCR · independent verification</div><div class="state" data-ko="방법론 검토" data-en="Method review" data-zh="方法审查">방법론 검토</div></article>
+  <article class="track"><div class="roman">IV</div><div><h3 data-ko="개발자 기술선언" data-en="Developer technical declaration" data-zh="开发者技术声明">개발자 기술선언</h3><p data-ko="모델·데이터·평가·한계·변경이력을 공급망에 전달" data-en="Transfers model, data, evaluation, limitation and change-history facts through the supply chain" data-zh="在供应链中传递模型、数据、评估、限制和变更历史">모델·데이터·평가·한계·변경이력을 공급망에 전달</p></div><div class="basis">Model card + SC 42 lifecycle evidence · machine-readable</div><div class="state" data-ko="스키마 검토" data-en="Schema review" data-zh="模式审查">스키마 검토</div></article>
+ </div></div></section>
 
- <footer>
-  <span>ISO/IEC 42117-X TFL · ISO/IEC 42117-2 Type II · SC 42 · EU AI Act</span>
-  <span><a href="https://github.com/hollobit/AI-TFL">github.com/hollobit/AI-TFL</a></span>
- </footer>
-</div>
+ <section id="framework"><div class="wrap"><div class="section-head"><span class="secno">02 / CORE</span><div><h2 data-ko="Type을 바꿔도 흔들리지 않는 공통 코어" data-en="A common core that survives every Type" data-zh="跨类型保持稳定的共同核心">Type을 바꿔도 흔들리지 않는 공통 코어</h2><p data-ko="표시 형식보다 먼저 claim의 의미, 적용 범위, 증거와 검증 주체를 구조화합니다." data-en="Before the visual label, the framework structures claim meaning, applicability, evidence and verifier identity." data-zh="在视觉标签之前，框架先结构化声明含义、适用范围、证据和验证者身份。">표시 형식보다 먼저 claim의 의미, 적용 범위, 증거와 검증 주체를 구조화합니다.</p></div></div>
+ <div class="core-grid"><div class="core"><h3 data-ko="공통 정보모델" data-en="Shared information model" data-zh="共同信息模型">공통 정보모델</h3><ol><li data-ko="TR 24028·TS 5723 기반 trustworthiness characteristics" data-en="Trustworthiness characteristics grounded in TR 24028 and TS 5723" data-zh="基于 TR 24028 和 TS 5723 的可信性特性">TR 24028·TS 5723 기반 trustworthiness characteristics</li><li data-ko="동사·정량형 claim과 필수 한정문" data-en="Verbal or quantitative claims with required qualifications" data-zh="动词型或定量型声明及必要限定">동사·정량형 claim과 필수 한정문</li><li data-ko="제품 유형별 MUST·SHOULD·MAY·N/A 프로파일" data-en="MUST, SHOULD, MAY and N/A profiles by product type" data-zh="按产品类型划分的 MUST、SHOULD、MAY 和 N/A 配置">제품 유형별 MUST·SHOULD·MAY·N/A 프로파일</li><li data-ko="측정방법·데이터셋·버전·시점·범위" data-en="Method, dataset, version, date and scope metadata" data-zh="方法、数据集、版本、日期和范围元数据">측정방법·데이터셋·버전·시점·범위</li><li data-ko="SC 42 표준·규제·수명주기 연결" data-en="SC 42 standards, regulatory and lifecycle linkage" data-zh="SC 42 标准、法规与生命周期关联">SC 42 표준·규제·수명주기 연결</li><li data-ko="사람용 패널과 기계가독 JSON의 동일 사실" data-en="The same facts in human-readable panels and machine-readable JSON" data-zh="在人读面板与机器可读 JSON 中保持同一事实">사람용 패널과 기계가독 JSON의 동일 사실</li></ol></div><div class="core"><h3 data-ko="현재 카탈로그 범위" data-en="Current catalog scope" data-zh="当前目录范围">현재 카탈로그 범위</h3><ol><li><b>91</b>&nbsp; selected claims</li><li><b>29</b>&nbsp; trustworthiness characteristics</li><li><b>8</b>&nbsp; product-type profiles</li><li><b>6</b>&nbsp; stakeholder demand views</li><li><b>4</b>&nbsp; Type mechanisms</li></ol><p class="body" data-ko="수치는 제안 데이터셋의 현재 범위이며, 표준의 확정 요구사항 수가 아닙니다." data-en="Counts describe the current proposal dataset, not finalized requirements of a published standard." data-zh="这些数字描述当前提案数据集，并非已发布标准的最终要求数量。">수치는 제안 데이터셋의 현재 범위이며, 표준의 확정 요구사항 수가 아닙니다.</p></div></div>
+ <div class="levels"><div class="level"><b>L1</b><span data-ko="선언주체가 직접 밝힌 claim" data-en="Claim stated by the declarant" data-zh="由声明方直接陈述的声明">선언주체가 직접 밝힌 claim</span></div><div class="level"><b>L2</b><span data-ko="측정·문서 등 입증자료가 공개된 claim" data-en="Claim with disclosed measurement or documentary evidence" data-zh="公开测量或文档证据的声明">측정·문서 등 입증자료가 공개된 claim</span></div><div class="level"><b>L3</b><span data-ko="범위가 명시된 제3자 검증 claim" data-en="Claim verified by a third party for a stated scope" data-zh="由第三方在明确范围内验证的声明">범위가 명시된 제3자 검증 claim</span></div></div>
+ <div class="flow"><div><b>UPSTREAM · IV</b><p data-ko="개발자가 모델·데이터·평가 사실을 구조화합니다." data-en="Developers structure model, data and evaluation facts." data-zh="开发者结构化模型、数据和评估事实。">개발자가 모델·데이터·평가 사실을 구조화합니다.</p></div><div><b>DECLARE · II</b><p data-ko="공급자가 제품 맥락에 맞는 claim을 선택하고 입증합니다." data-en="Providers select and substantiate claims for the product context." data-zh="供应方针对产品情境选择并佐证声明。">공급자가 제품 맥락에 맞는 claim을 선택하고 입증합니다.</p></div><div><b>QUANTIFY · III</b><p data-ko="동일 규칙과 benchmark 아래 정량 비교 가능성을 만듭니다." data-en="Common rules and benchmarks enable bounded quantitative comparison." data-zh="共同规则和基准支持有边界的定量比较。">동일 규칙과 benchmark 아래 정량 비교 가능성을 만듭니다.</p></div><div><b>CERTIFY · I</b><p data-ko="프로그램 기준 충족 여부를 제3자가 인증합니다." data-en="A third party certifies conformance to program criteria." data-zh="第三方认证是否符合项目准则。">프로그램 기준 충족 여부를 제3자가 인증합니다.</p></div></div>
+ </div></section>
+
+ <section id="type-ii"><div class="wrap"><div class="section-head"><span class="secno">03 / ACTIVE</span><div><h2 data-ko="왜 지금 Type II인가" data-en="Why Type II now" data-zh="为何当前聚焦 Type II">왜 지금 Type II인가</h2><p data-ko="현재 페이지의 직접 목적은 ISO/IEC 42117-2 Type II 제안을 설득하는 것입니다. 다만 그 논거와 데이터 구조는 후속 Type을 재사용할 수 있게 설계합니다." data-en="The immediate purpose of this site is to support the ISO/IEC 42117-2 Type II proposal, while making its rationale and data structure reusable by later Types." data-zh="本网站的直接目的，是支持 ISO/IEC 42117-2 Type II 提案，同时使其论据和数据结构可由后续类型复用。">현재 페이지의 직접 목적은 ISO/IEC 42117-2 Type II 제안을 설득하는 것입니다. 다만 그 논거와 데이터 구조는 후속 Type을 재사용할 수 있게 설계합니다.</p></div></div>
+ <div class="type2"><div class="argument"><h3 data-ko="가장 낮은 도입비용으로, 검증 가능한 정보의 공급을 먼저 만듭니다." data-en="Create a supply of verifiable information first, at the lowest adoption cost." data-zh="以最低采用成本，先建立可验证信息的供给。">가장 낮은 도입비용으로, 검증 가능한 정보의 공급을 먼저 만듭니다.</h3><p data-ko="Type II는 인증기관과 프로그램 운영체계가 완성되기 전에도 적용할 수 있습니다. 선언 책임은 공급자에게 두되, claim 규칙·필수 한정문·입증자료·L1/L2/L3 표시·기계가독 형식으로 사후 검증과 시장 비교를 가능하게 합니다." data-en="Type II can operate before certification bodies and program infrastructure are mature. Accountability remains with the provider, while claim rules, qualifications, evidence, L1/L2/L3 disclosure and machine-readable data enable ex-post verification and market comparison." data-zh="Type II 可在认证机构与项目基础设施成熟前运行。责任由供应方承担，同时通过声明规则、限定语、证据、L1/L2/L3 披露和机器可读数据，实现事后验证与市场比较。">Type II는 인증기관과 프로그램 운영체계가 완성되기 전에도 적용할 수 있습니다. 선언 책임은 공급자에게 두되, claim 규칙·필수 한정문·입증자료·L1/L2/L3 표시·기계가독 형식으로 사후 검증과 시장 비교를 가능하게 합니다.</p></div><div class="checks"><div class="check"><b>01</b><span data-ko="형용사·절대주장 대신 검증 가능한 사실 claim" data-en="Verifiable fact claims instead of adjectives or absolute promises" data-zh="以可验证事实声明替代形容词或绝对承诺">형용사·절대주장 대신 검증 가능한 사실 claim</span></div><div class="check"><b>02</b><span data-ko="제품유형 프로파일로 과잉·누락 선언 방지" data-en="Product profiles prevent over- and under-disclosure" data-zh="产品配置避免过度或不足披露">제품유형 프로파일로 과잉·누락 선언 방지</span></div><div class="check"><b>03</b><span data-ko="claim마다 증거 수준과 검증 범위를 분리 표시" data-en="Evidence level and verification scope shown per claim" data-zh="逐项显示证据等级与验证范围">claim마다 증거 수준과 검증 범위를 분리 표시</span></div><div class="check"><b>04</b><span data-ko="규제·조달·공급망 재사용이 가능한 JSON" data-en="JSON reusable for regulation, procurement and supply chains" data-zh="可用于法规、采购和供应链的 JSON">규제·조달·공급망 재사용이 가능한 JSON</span></div></div></div>
+ </div></section>
+
+ <section id="prototype"><div class="wrap"><div class="section-head"><span class="secno">04 / PROTOTYPE</span><div><h2 data-ko="제안 논리를 데이터와 화면으로 검증" data-en="Test the proposal in data and interface" data-zh="用数据和界面验证提案逻辑">제안 논리를 데이터와 화면으로 검증</h2><p data-ko="두 프로토타입은 인증 서비스가 아니라 제안 검토 도구입니다." data-en="These prototypes are proposal-review tools, not certification services." data-zh="这些原型是提案审查工具，并非认证服务。">두 프로토타입은 인증 서비스가 아니라 제안 검토 도구입니다.</p></div></div><div class="workspaces">
+ <a class="workspace" href="dashboard.html" data-page="dashboard.html"><span class="tag">Evidence explorer</span><h3 data-ko="공통 프레임워크 대시보드" data-en="Common framework dashboard" data-zh="共同框架仪表板">공통 프레임워크 대시보드</h3><p data-ko="91개 claim, 29개 특성, 제품 프로파일, 이해관계자 수요, 규제와 SC 42 연결을 탐색합니다." data-en="Explore 91 claims, 29 characteristics, product profiles, stakeholder demand, regulation and SC 42 linkages." data-zh="浏览 91 项声明、29 项特性、产品配置、利益相关方需求、法规与 SC 42 关联。">91개 claim, 29개 특성, 제품 프로파일, 이해관계자 수요, 규제와 SC 42 연결을 탐색합니다.</p><span class="go" data-ko="대시보드 열기 →" data-en="Open dashboard →" data-zh="打开仪表板 →">대시보드 열기 →</span></a>
+ <a class="workspace" href="label-render.html" data-page="label-render.html"><span class="tag">Label laboratory</span><h3 data-ko="Type I–IV 라벨 프로토타입" data-en="Type I–IV label prototype" data-zh="Type I–IV 标签原型">Type I–IV 라벨 프로토타입</h3><p data-ko="제품유형과 Type을 바꾸며 동일 claim이 선언·정량·기술공시·인증 형식으로 어떻게 표시되는지 확인합니다." data-en="Switch product profiles and Types to see how the same claims appear as declarations, quantitative disclosures, technical facts or certification." data-zh="切换产品配置与类型，查看同一声明如何呈现为自我声明、定量披露、技术事实或认证。">제품유형과 Type을 바꾸며 동일 claim이 선언·정량·기술공시·인증 형식으로 어떻게 표시되는지 확인합니다.</p><span class="go" data-ko="라벨 실험실 열기 →" data-en="Open label laboratory →" data-zh="打开标签实验室 →">라벨 실험실 열기 →</span></a>
+ </div></div></section>
+
+ <section id="review"><div class="wrap"><div class="section-head"><span class="secno">05 / REVIEW</span><div><h2 data-ko="지금 필요한 검토" data-en="What needs review now" data-zh="当前需要审查的事项">지금 필요한 검토</h2><p data-ko="제안 단계와 확정 요소를 분리해 논의를 집중합니다." data-en="Separate proposal-stage questions from settled design elements to focus review." data-zh="区分提案阶段问题与已稳定设计要素，以聚焦审查。">제안 단계와 확정 요소를 분리해 논의를 집중합니다.</p></div></div><div class="ask"><div><b data-ko="Type II 규범 구조" data-en="Type II normative structure" data-zh="Type II 规范结构">Type II 규범 구조</b><span data-ko="claim 자격요건, 비오도 원칙, 입증책임, 수정·철회 절차" data-en="Claim qualification, non-misleading rules, substantiation duty, correction and withdrawal" data-zh="声明资格、非误导规则、佐证责任、纠正与撤回">claim 자격요건, 비오도 원칙, 입증책임, 수정·철회 절차</span></div><div><b data-ko="공통 코어 경계" data-en="Common-core boundary" data-zh="共同核心边界">공통 코어 경계</b><span data-ko="네 Type이 반드시 공유할 필드와 Type별 확장 필드" data-en="Fields every Type must share and fields reserved for Type-specific extensions" data-zh="所有类型必须共享的字段与类型专用扩展字段">네 Type이 반드시 공유할 필드와 Type별 확장 필드</span></div><div><b data-ko="후속 Type 인터페이스" data-en="Interfaces to later Types" data-zh="与后续类型的接口">후속 Type 인터페이스</b><span data-ko="Type IV 증거의 재사용, Type III 비교조건, Type I 인증범위" data-en="Reuse of Type IV evidence, Type III comparability conditions and Type I certification scope" data-zh="Type IV 证据复用、Type III 可比条件和 Type I 认证范围">Type IV 증거의 재사용, Type III 비교조건, Type I 인증범위</span></div></div></div></section>
+ </main>
+ <footer><div class="wrap foot"><span><strong>PROPOSAL NOTICE</strong> · ISO/IEC 42117-X TFL concept workspace · illustrative examples only</span><span>TR 24028 · TS 5723 · JTC 1/SC 42 · ISO 14020 family inspired</span><a href="https://github.com/hollobit/AI-TFL">github.com/hollobit/AI-TFL</a></div></footer>
 <script>
-var LANGS=['ko','en','zh'];
-function applyLang(l){
- document.documentElement.lang=l;
- LANGS.forEach(function(x){var b=document.getElementById(x);if(b)b.classList.toggle('on',l===x);});
- document.querySelectorAll('[data-ko]').forEach(function(e){
-  var t=e.getAttribute('data-'+l); if(t==null) t=e.getAttribute('data-en'); if(t!=null) e.textContent=t;
- });
+const LANGS=['ko','en','zh'];
+function resolvePageLinks(){
+ const fromSourceFile=location.protocol==='file:'&&/\/site\/index\.html$/.test(location.pathname);
+ document.querySelectorAll('[data-page]').forEach(a=>{a.href=(fromSourceFile?'../':'')+a.dataset.page});
 }
-// URL 해시로 언어 표현: #ko / #en / #zh (없으면 브라우저 언어 기본값)
-function setLang(l){ location.hash=l; }
-function routeLang(){
- var h=location.hash.replace(/^#/,'');
- if(LANGS.indexOf(h)<0){var n=(navigator.language||'ko').toLowerCase();h=n.indexOf('ko')===0?'ko':(n.indexOf('zh')===0?'zh':'en');}
- applyLang(h);
-}
-window.addEventListener('hashchange', routeLang);
-routeLang();
+function applyLang(l){document.documentElement.lang=l;LANGS.forEach(x=>{const b=document.getElementById(x);if(b)b.classList.toggle('on',l===x)});document.querySelectorAll('[data-ko]').forEach(e=>{const v=e.getAttribute('data-'+l)||e.getAttribute('data-en');if(v)e.textContent=v})}
+function setLang(l){localStorage.setItem('tfl-lang',l);applyLang(l)}
+resolvePageLinks();
+const saved=localStorage.getItem('tfl-lang');const browser=(navigator.language||'ko').toLowerCase();applyLang(LANGS.includes(saved)?saved:(browser.startsWith('zh')?'zh':browser.startsWith('ko')?'ko':'en'));
 </script>
 </body>
 </html>
