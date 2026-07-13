@@ -93,7 +93,7 @@ footer{padding:30px 0 60px}.foot{display:flex;justify-content:space-between;gap:
 <footer><div class="wrap foot"><span><strong>PROPOSAL NOTICE</strong> · Type III concept · illustrative examples only</span><span data-ko="ISO 14025/EPD에서 착안 · ISO/IEC 42005 및 SC 42 체계와 연계" data-en="Inspired by ISO 14025/EPD · aligned with ISO/IEC 42005 and SC 42 work" data-zh="借鉴 ISO 14025/EPD · 与 ISO/IEC 42005 及 SC 42 工作衔接">ISO 14025/EPD에서 착안 · ISO/IEC 42005 및 SC 42 체계와 연계</span><a href="https://github.com/hollobit/AI-TFL">github.com/hollobit/AI-TFL</a></div></footer>
 <script>
 const LANGS=['ko','en','zh'];
-function resolvePageLinks(){const fromSource=location.protocol==='file:'&&/\/site\/type-iii\.html$/.test(location.pathname);document.querySelectorAll('[data-page]').forEach(a=>{a.href=(fromSource?'../':'')+a.dataset.page})}
+function resolvePageLinks(){const fromSource=/\/site\/type-iii\.html$/.test(location.pathname);document.querySelectorAll('[data-page]').forEach(a=>{a.href=(fromSource?'../':'')+a.dataset.page})}
 function applyLang(l){document.documentElement.lang=l;LANGS.forEach(x=>{const b=document.getElementById(x);if(b)b.classList.toggle('on',l===x)});document.querySelectorAll('[data-ko]').forEach(e=>{const v=e.getAttribute('data-'+l)||e.getAttribute('data-en');if(v)e.textContent=v})}
 function setLang(l){localStorage.setItem('tfl-lang',l);applyLang(l)}
 function showPanel(name){const results=name==='results';document.getElementById('panel-results').hidden=!results;document.getElementById('panel-trace').hidden=results;document.getElementById('tab-results').setAttribute('aria-selected',String(results));document.getElementById('tab-trace').setAttribute('aria-selected',String(!results))}
